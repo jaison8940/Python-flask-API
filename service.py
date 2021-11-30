@@ -21,14 +21,17 @@ def getUser(id=None):
     try:       
         user_results = getUserData(id)        
         res = {}
+        index = 0
         for user in user_results:    
             temp = {}
             temp = {
+            'id': user.id,
             'name': user.name,
             'email': user.email,
             'contactno': user.contactno           
             }
-            res[user.id] =  temp
+            res[index] =  temp
+            index += 1
         return res
     except Exception as error:
         res = {"error occurred" : str(error.__class__)}
@@ -53,10 +56,10 @@ def postUser(data):
         if isinstance(data,dict):
             data = [data]        
         response = postUserData(data)
-        return response
+        return json.dumps(response)
     except Exception as error:
         res = {"error occurred":str(error.__class__)}
-        return res
+        return json.dumps(res)
 
 
 def putUserData(data):
@@ -77,10 +80,10 @@ def putUser(data):
         if isinstance(data,dict):
             data = [data]
         response  = putUserData(data)
-        return response
+        return json.dumps(response)
     except Exception as error:
         res = {"error occurred" : str(error.__class__)}
-        return res
+        return json.dumps(res)
 
 
 def deleteUserData(id):
@@ -98,10 +101,10 @@ def deleteUser(id = None):
         if not id:
             raise Exception("id is required")
         response = deleteUserData(id)
-        return response       
+        return json.dumps(response)       
     except Exception as error:
         res = {"error occurred" : str(error.__class__)}
-        return res
+        return json.dumps(res)
     
 
 

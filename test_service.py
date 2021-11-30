@@ -6,14 +6,17 @@ from models import users
 
 def convert_fakeuser(fake_users):        
     res = {}
-    for user in fake_users:
+    index = 0
+    for user in fake_users:    
         temp = {}
         temp = {
-            'name': user.name,
-            'email': user.email,
-            'contactno': user.contactno           
+        'id': user.id,
+        'name': user.name,
+        'email': user.email,
+        'contactno': user.contactno           
         }
-        res[user.id] =  temp
+        res[index] =  temp
+        index += 1
     return res
 
 
@@ -37,7 +40,7 @@ def test_postUserp(mocker):
     mocker.patch('service.postUserData', return_value = "Inserted Successfully")
     fake_data = json.dumps({"name":"arvind","email":"arvind@gmail.com","contactno": 8987651234})
     response = postUser(fake_data)    
-    assert response == "Inserted Successfully"
+    assert response == json.dumps("Inserted Successfully")
 
 
 def test_postUsern(mocker):
@@ -50,7 +53,7 @@ def test_putUserp(mocker):
     mocker.patch('service.putUserData', return_value = "Updated Successfully")
     fake_data = json.dumps({"id":1,"name":"arvind","email":"arvind@gmail.com","contactno": 8987651234})
     response = putUser(fake_data)   
-    assert response == "Updated Successfully"
+    assert response == json.dumps("Updated Successfully")
 
 
 def test_putUsern(mocker):
@@ -62,7 +65,7 @@ def test_putUsern(mocker):
 def test_deleteUserp(mocker):
     mocker.patch('service.deleteUserData', return_value = "Deleted Successfully")
     response = deleteUser(1)    
-    assert response == "Deleted Successfully"
+    assert response == json.dumps("Deleted Successfully")
 
 
 def test_deleteUsern(mocker):
